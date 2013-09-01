@@ -1,0 +1,7 @@
+{ 
+  "name": "command-line",
+  "version": "0.0.0",
+  "dependencies": {
+    "keyboard": "*"
+  }
+}
