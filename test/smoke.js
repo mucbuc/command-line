@@ -1,11 +1,10 @@
-window.addEventListener( 'load', function() { 
+window.addEventListener( 'load', function() {
 
 	var element = document.getElementById( 'commandLine' )
  	  , cl = new CommandLine( element )
-    , TIMEOUT = 0
-    , carret = { start: 0, end: 0 };
+    , TIMEOUT = 0;
 
-	cl.on( 'Tab', checkActive );
+  cl.on( 'Tab', checkActive );
   cl.on( 'Up', checkCarret );
   cl.on( 'Down', checkCarret );
 
@@ -13,13 +12,7 @@ window.addEventListener( 'load', function() {
     if (  e.action == 'activate' 
        || e.action == 'repeat') {
       setTimeout( function() {
-        if(   element.value
-          &&  document.activeElement != element) {
-          failTest();
-        } 
-        
-        if (  !element.value 
-          &&  document.activeElement == element) {
+        if(element.value && document.activeElement != element) {
           failTest();
         }
       }, TIMEOUT ); 
@@ -29,17 +22,16 @@ window.addEventListener( 'load', function() {
   function checkCarret(e) {
     var start = element.selectionStart
       , end = element.selectionEnd;
-
     if (  e.action == 'activate' 
        || e.action == 'repeat') {
-      carret.start = element.selectionStart;
-      carret.end = element.selectionEnd;
-    }
-    else if (e.action == 'release') {
-      if (  carret.start != element.selectionStart
-         || carret.end != element.selectionEnd) {
-        failTest();
-      }
+      var start = element.selectionStart
+        , end = element.selectionEnd;
+      setTimeout( function() {
+        if (  start != element.selectionStart
+           || end != element.selectionEnd) {
+          failTest();
+        }
+      }, TIMEOUT );
     }
   }
 
