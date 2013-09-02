@@ -4,13 +4,24 @@ window.addEventListener( 'load', function() {
   	  , cl = new CommandLine( element );
 
   	cl.on( 'Tab', function( e ) {
-  		window.setTimeout( function() {
-			if(		element.value
-				&&	document.activeElement != element) {
+  		
+      if(   e.action == 'activate'
+        &&  document.activeElement == element) {
+          setTimeout( checkActive, 100 ); 
+      }
+      
+			function checkActive() {
+        console.log( 'checkActive' );
+				if(	  element.value
+				  &&	document.activeElement != element) {
+	  	 		window.alert( 'test failed' );
+	  	 	} 
+	  	 		
+  	 		if (	!element.value 
+  	 			&& 	document.activeElement == element) {
   	 			window.alert( 'test failed' );
   	 		}
-  	 	}, 10 );
-  	 	console.log( 'Tab up' );
+			}
   	} );
 } );
 
