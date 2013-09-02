@@ -1,44 +1,51 @@
 window.addEventListener( 'load', function() { 
 
 	var element = document.getElementById( 'commandLine' )
-  	  , cl = new CommandLine( element );
+ 	  , cl = new CommandLine( element )
+    , TIMEOUT = 0
+    , carret = { start: 0, end: 0 };
 
-  	cl.on( 'Tab', function( e ) {
-  		
-      if(   e.action == 'activate'
-        &&  document.activeElement == element) {
-          setTimeout( checkActive, 100 ); 
-      }
-      
-			function checkActive() {
-        if(	  element.value
-				  &&	document.activeElement != element) {
-	  	 		window.alert( 'test failed' );
-	  	 	} 
-	  	 		
-  	 		if (	!element.value 
-  	 			&& 	document.activeElement == element) {
-  	 			window.alert( 'test failed' );
-  	 		}
-			}
-  	} );
+	cl.on( 'Tab', checkActive );
+  cl.on( 'Up', checkCarret );
+  cl.on( 'Down', checkCarret );
 
-    cl.on( 'Up', doTest );
-    cl.on( 'Down', doTest );
-
-    function doTest() {
-      var start = element.selectionStart
-        , end = element.selectionEnd;
-
-      setTimeout( checkCaret, 100 );
-
-      function checkCaret() {
-        if (  start != element.selectionStart
-           || end != element.selectionEnd) {
-          alert( 'test failed' );
+  function checkActive( e ) {
+    if (  e.action == 'activate' 
+       || e.action == 'repeat') {
+      setTimeout( function() {
+        if(   element.value
+          &&  document.activeElement != element) {
+          failTest();
+        } 
+        
+        if (  !element.value 
+          &&  document.activeElement == element) {
+          failTest();
         }
+      }, TIMEOUT ); 
+    }
+  }
+
+  function checkCarret(e) {
+    var start = element.selectionStart
+      , end = element.selectionEnd;
+
+    if (  e.action == 'activate' 
+       || e.action == 'repeat') {
+      carret.start = element.selectionStart;
+      carret.end = element.selectionEnd;
+    }
+    else if (e.action == 'release') {
+      if (  carret.start != element.selectionStart
+         || carret.end != element.selectionEnd) {
+        failTest();
       }
     }
+  }
+
+  function failTest() {
+    window.alert( 'test failed' );
+  }
 } );
 
 
