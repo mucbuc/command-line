@@ -11,8 +11,7 @@ window.addEventListener( 'load', function() {
       }
       
 			function checkActive() {
-        console.log( 'checkActive' );
-				if(	  element.value
+        if(	  element.value
 				  &&	document.activeElement != element) {
 	  	 		window.alert( 'test failed' );
 	  	 	} 
@@ -23,6 +22,23 @@ window.addEventListener( 'load', function() {
   	 		}
 			}
   	} );
+
+    cl.on( 'Up', doTest );
+    cl.on( 'Down', doTest );
+
+    function doTest() {
+      var start = element.selectionStart
+        , end = element.selectionEnd;
+
+      setTimeout( checkCaret, 100 );
+
+      function checkCaret() {
+        if (  start != element.selectionStart
+           || end != element.selectionEnd) {
+          alert( 'test failed' );
+        }
+      }
+    }
 } );
 
 
