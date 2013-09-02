@@ -6,14 +6,13 @@ window.addEventListener( 'load', function() {
     , area = document.getElementById( 'commandArea' );
 
   // need to test these 
-  emitter.on( 'auto', function() { console.log( 'auto' ); } );
-  emitter.on( 'eval', function() { console.log( 'eval' ); } );
-  emitter.on( 'previous', function(e) { console.log( 'previous' ); } );
+  emitter.on( 'auto', function( command ) { console.log( 'auto:', command ); } );
+  emitter.on( 'eval', function( command ) { console.log( 'eval:', command ); } );
+  emitter.on( 'previous', function() { console.log( 'previous' ); } );
   emitter.on( 'next', function() { console.log( 'next' ); } );
 
   testElement( line ); 
   testElement( area ); 
-
 
   function testElement( element ) {
 
