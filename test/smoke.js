@@ -7,6 +7,7 @@ window.addEventListener( 'load', function() {
 
   // need to test these 
   emitter.on( 'auto', function( command ) { console.log( 'auto:', command ); } );
+  emitter.on( 'reverse auto', function( command ) { console.log( 'reverse auto:', command ); } );
   emitter.on( 'eval', function( command ) { console.log( 'eval:', command ); } );
   emitter.on( 'previous', function() { console.log( 'previous' ); } );
   emitter.on( 'next', function() { console.log( 'next' ); } );
@@ -21,7 +22,7 @@ window.addEventListener( 'load', function() {
     cl.on( 'Tab', checkActive );
     cl.on( 'Up', checkCarret );
     cl.on( 'Down', checkCarret );
-    cl.on( 'Enter', emitter.tick );
+    cl.on( '*', emitter.tick );
 
     function checkActive( e ) {
       if (  e.action == 'activate' 
@@ -52,8 +53,6 @@ window.addEventListener( 'load', function() {
       }
     }
   }
-
-
 
   function failTest() {
     window.alert( 'test failed' );

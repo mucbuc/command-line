@@ -1,6 +1,6 @@
 { 
   "name": "command-line",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "repository": {
     "type": "git",
     "url": "git://github.com/mucbuc/command-line"
