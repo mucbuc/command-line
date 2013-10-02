@@ -20,13 +20,28 @@ window.addEventListener( 'load', function() {
     var cl = new CommandLine( element, emitter )
     
     cl.on( 'Tab', checkActive );
+    cl.on( 'Tab', checkAutoComplete );
     cl.on( 'Up', checkCarret );
     cl.on( 'Down', checkCarret );
     cl.on( '*', emitter.tick );
 
+    cl.registerAuto( ['on', 'off' ] );
+
+    function checkAutoComplete(e) {
+      if (   actionFilter(e.action)
+          && document.activeElement == element
+          && element.value == 'o') {
+        var expect = element.value == 'on' ? 'off' : 'on';
+        setTimeout( function() { 
+          if (element.value != expect) {
+            failTest();
+          }
+        }, 0 );
+      }
+    }
+
     function checkActive( e ) {
-      if (  e.action == 'activate' 
-         || e.action == 'repeat') {
+      if (actionFilter(e.action)) {
         setTimeout( function() {
           if(element.value && document.activeElement != element) {
             failTest();
@@ -39,8 +54,7 @@ window.addEventListener( 'load', function() {
     function checkCarret(e) {
       var start = element.selectionStart
         , end = element.selectionEnd;
-      if (  e.action == 'activate' 
-         || e.action == 'repeat') {
+      if (actionFilter(e.action)) {
         var start = element.selectionStart
           , end = element.selectionEnd;
         setTimeout( function() {
@@ -51,6 +65,10 @@ window.addEventListener( 'load', function() {
           emitter.tick();
         }, TIMEOUT );
       }
+    }
+
+    function actionFilter( action ) {
+      return action == 'activate' || action == 'repeat';
     }
   }
 
