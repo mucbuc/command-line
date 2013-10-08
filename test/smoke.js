@@ -25,7 +25,7 @@ window.addEventListener( 'load', function() {
     cl.on( 'Down', checkCarret );
     cl.on( '*', emitter.tick );
 
-    cl.registerAuto( ['on', 'off' ] );
+    cl.registerAutoComplete( ['on', 'off' ] );
 
     function checkAutoComplete(e) {
       if (   actionFilter(e.action)
