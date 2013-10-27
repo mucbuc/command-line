@@ -1,30 +1,34 @@
 window.addEventListener( 'load', function() {
 
-	var emitter = new EventStream()
-    , TIMEOUT = 0
+	var TIMEOUT = 0
     , line = document.getElementById( 'commandLine' )
     , area = document.getElementById( 'commandArea' );
-
-  // need to test these 
-  emitter.on( 'auto', function( command ) { console.log( 'auto:', command ); } );
-  emitter.on( 'reverse auto', function( command ) { console.log( 'reverse auto:', command ); } );
-  emitter.on( 'eval', function( command ) { console.log( 'eval:', command ); } );
-  emitter.on( 'previous', function() { console.log( 'previous' ); } );
-  emitter.on( 'next', function() { console.log( 'next' ); } );
 
   testElement( line ); 
   testElement( area ); 
 
   function testElement( element ) {
 
-    var cl = new CommandLine( element, emitter )
+  // need to test these 
+  // emitter.on( 'auto', function( command ) { console.log( 'auto:', command ); } );
+  // emitter.on( 'reverse auto', function( command ) { console.log( 'reverse auto:', command ); } );
+  // emitter.on( 'eval', function( command ) { console.log( 'eval:', command ); } );
+  // emitter.on( 'previous', function() { console.log( 'previous' ); } );
+  // emitter.on( 'next', function() { console.log( 'next' ); } );
+
+    var emitter = new EventStream()
+      , cl = new CommandLine( element, emitter );
     
     cl.on( 'Tab', checkActive );
     cl.on( 'Tab', checkAutoComplete );
     cl.on( 'Up', checkCarret );
     cl.on( 'Down', checkCarret );
     cl.on( '*', emitter.tick );
-
+    
+    emitter.on( 'cd', function() {
+      element.value += '/cd'; 
+    } );
+    
     cl.registerAutoComplete( ['on', 'off' ] );
 
     function checkAutoComplete(e) {
