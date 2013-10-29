@@ -31,6 +31,10 @@ window.addEventListener( 'load', function() {
     
     cl.registerAutoComplete( ['on', 'off' ] );
 
+    cl.macros = { 
+        "ls": "ls -la"
+    };
+
     function checkAutoComplete(e) {
       if (   actionFilter(e.action)
           && document.activeElement == element
