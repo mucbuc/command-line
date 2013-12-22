@@ -6,7 +6,6 @@
     "url": "git://github.com/mucbuc/command-line"
   },
   "dependencies": {
-    "keyboard": "*",
-    "mucbuc-jsbag": "*"
+    "keyboard": "*"
   }
 }

@@ -16,15 +16,14 @@ window.addEventListener( 'load', function() {
   // emitter.on( 'previous', function() { console.log( 'previous' ); } );
   // emitter.on( 'next', function() { console.log( 'next' ); } );
 
-    var emitter = new EventStream()
+    var emitter = new Stream()
       , cl = new CommandLine( element, emitter );
     
     cl.on( 'Tab', checkActive );
     cl.on( 'Tab', checkAutoComplete );
     cl.on( 'Up', checkCarret );
     cl.on( 'Down', checkCarret );
-    cl.on( '*', emitter.tick );
-    
+       
     emitter.on( 'cd', function() {
       element.value += '/cd'; 
     } );
@@ -54,7 +53,6 @@ window.addEventListener( 'load', function() {
           if(element.value && document.activeElement != element) {
             failTest();
           }
-          emitter.tick();
         }, TIMEOUT ); 
       }
     }
@@ -70,7 +68,6 @@ window.addEventListener( 'load', function() {
              || end != element.selectionEnd) {
             failTest();
           }
-          emitter.tick();
         }, TIMEOUT );
       }
     }
