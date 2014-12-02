@@ -4,11 +4,26 @@ var assert = require( 'assert' )
 
 suite( 'basics', function() {
 
+  var emitter
+    , ot;
+
+  setup( function() {
+    emitter = new Expector();
+    ot = new OnTab( function( value ) {
+      emitter.emit( value ); 
+    } );
+  } );
+
+  teardown( function() {
+    emitter.check();
+    delete emitter;
+    delete ot;
+  } );
+
   test( 'getter/setter', function() {
     assert( typeof OnTab === 'function' );
 
-    var ot = new OnTab()
-      , a
+    var a
       , b = [ a ];
 
     ot.context = b;
@@ -19,39 +34,28 @@ suite( 'basics', function() {
   });
 
   test( 'existance of methods', function() {
-    var ot = new OnTab(); 
     assert( typeof ot.autoComplete === 'function' );
     assert( typeof ot.reverseAutoComplete === 'function' );
     assert( typeof ot.cancelAutoComplete === 'function' );
   }); 
 
   test( 'autoCompleteSingleContext', function() {
-    var single = 'hello'
-      , ot = new OnTab( function( value ) {
-          assert( single === value );
-        } );
-
+    var single = 'hello';
     ot.context = single; 
+    emitter.expect( single );
     ot.autoComplete( 'h' ); 
   });
 
   test( 'autoComplete', function() {
-    var set = [ 'apple', 'hello', 'orange' ]
-      , ot = new OnTab( function( value ) {
-          assert( value === 'orange' );
-        } );
-
+    var set = [ 'apple', 'hello', 'orange' ];
     ot.context = set; 
+
+    emitter.expect( 'orange' );
     ot.autoComplete( 'o' ); 
   });
 
   test( 'autoCompleteCycle', function() {
-    var emitter = new Expector()
-      , set = [ 'apple', 'hello', 'asshole' ]
-      , ot = new OnTab( function( value ) {
-          emitter.emit( value ); 
-        } );
-
+    var set = [ 'apple', 'hello', 'asshole' ];
     ot.context = set; 
 
     emitter.expect( 'apple' )
@@ -59,8 +63,6 @@ suite( 'basics', function() {
 
     ot.autoComplete( 'a' ); 
     ot.autoComplete( 'a' );
-
-    emitter.check();
   });
 
 
