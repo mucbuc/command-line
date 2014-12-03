@@ -17,7 +17,7 @@ window.addEventListener( 'load', function() {
   // emitter.on( 'next', function() { console.log( 'next' ); } );
 
     var emitter = new Stream()
-      , cl = new CommandLine( element, emitter );
+      , cl = new CommandLine( element, emitter, OnTab );
     
     cl.on( 'Tab', checkActive );
     cl.on( 'Tab', checkAutoComplete );
@@ -28,7 +28,7 @@ window.addEventListener( 'load', function() {
       element.value += '/cd'; 
     } );
     
-    cl.registerAutoComplete( ['on', 'off' ] );
+    cl.registerAutoComplete = ['on', 'off' ];
 
     cl.macros = { 
         "ls": "ls -la"

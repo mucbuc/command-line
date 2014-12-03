@@ -98,4 +98,7 @@
   if (typeof module !== 'undefined') {
     module.exports = OnTab; 
   }
+  else {
+    window.OnTab = OnTab;
+  }
 })();
